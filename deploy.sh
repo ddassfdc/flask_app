@@ -19,8 +19,16 @@ echo "📁 Setting up application directory..."
 mkdir -p /home/ubuntu/flask_app
 cd /home/ubuntu/flask_app
 
-# Clone or copy your application files here
-# If you're uploading files manually, make sure they're in this directory
+# Copy application files (if they exist in current directory)
+echo "📋 Copying application files..."
+if [ -f "requirements.txt" ]; then
+    echo "✅ requirements.txt found in current directory"
+else
+    echo "❌ requirements.txt not found. Please ensure all files are uploaded to /home/ubuntu/flask_app/"
+    echo "📁 Current directory contents:"
+    ls -la
+    exit 1
+fi
 
 # Create virtual environment
 echo "🐍 Creating Python virtual environment..."
@@ -30,7 +38,24 @@ source venv/bin/activate
 # Install Python dependencies
 echo "📚 Installing Python dependencies..."
 pip install --upgrade pip
-pip install -r requirements.txt
+
+# Check if requirements.txt exists and install dependencies
+if [ -f "requirements.txt" ]; then
+    echo "📦 Installing dependencies from requirements.txt..."
+    pip install -r requirements.txt
+    if [ $? -eq 0 ]; then
+        echo "✅ Dependencies installed successfully"
+    else
+        echo "❌ Failed to install dependencies"
+        exit 1
+    fi
+else
+    echo "❌ requirements.txt not found in $(pwd)"
+    echo "📁 Current directory: $(pwd)"
+    echo "📋 Files in current directory:"
+    ls -la
+    exit 1
+fi
 
 # Create uploads directory
 echo "📂 Creating uploads directory..."
@@ -48,7 +73,7 @@ EOF
 echo "🌐 Setting up Nginx..."
 sudo tee /etc/nginx/sites-available/flask-app << EOF
 server {
-    listen 80;
+    listen 5000;
     server_name _;
 
     location / {

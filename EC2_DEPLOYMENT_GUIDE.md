@@ -16,7 +16,7 @@ This guide will walk you through deploying your Flask Animal Gallery & File Uplo
 3. Select **t2.micro** (free tier) or larger based on your needs
 4. Configure Security Groups:
    - **SSH (Port 22)**: Your IP
-   - **HTTP (Port 80)**: 0.0.0.0/0
+   - **Custom TCP (Port 5000)**: 0.0.0.0/0
    - **HTTPS (Port 443)**: 0.0.0.0/0 (optional)
 5. Launch instance and download your `.pem` key file
 
@@ -35,6 +35,12 @@ ssh -i your-key.pem ubuntu@YOUR_EC2_PUBLIC_IP
 ```bash
 # From your local machine
 scp -i your-key.pem -r /path/to/flask_app ubuntu@YOUR_EC2_PUBLIC_IP:~/
+
+# Verify files were uploaded correctly
+ssh -i your-key.pem ubuntu@YOUR_EC2_PUBLIC_IP
+cd flask_app
+ls -la
+# You should see: app.py, requirements.txt, static/, templates/, etc.
 ```
 
 ### 2.2 Option B: Using Git
@@ -120,7 +126,7 @@ The app will automatically use production settings when deployed.
 ### 6.1 HTTP Access
 Your app will be accessible at:
 ```
-http://YOUR_EC2_PUBLIC_IP
+http://YOUR_EC2_PUBLIC_IP:5000
 ```
 
 ### 6.2 HTTPS Setup (Optional)
@@ -166,7 +172,7 @@ sudo systemctl restart flask-app
 ```bash
 # Allow only necessary ports
 sudo ufw allow 22    # SSH
-sudo ufw allow 80    # HTTP
+sudo ufw allow 5000  # Custom TCP (Flask App)
 sudo ufw allow 443   # HTTPS (if using SSL)
 sudo ufw enable
 ```
@@ -187,7 +193,20 @@ sudo systemctl restart ssh
 
 ### Common Issues:
 
-1. **Port Already in Use**
+1. **requirements.txt Not Found**
+   ```bash
+   # Check if you're in the right directory
+   pwd
+   ls -la
+   
+   # Make sure all files are uploaded
+   scp -i your-key.pem -r /path/to/flask_app/* ubuntu@YOUR_EC2_IP:~/flask_app/
+   
+   # Or check file structure
+   tree ~/flask_app/
+   ```
+
+2. **Port Already in Use**
    ```bash
    sudo netstat -tlnp | grep :8000
    sudo pkill -f gunicorn
