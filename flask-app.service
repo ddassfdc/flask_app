@@ -1,0 +1,19 @@
+[Unit]
+Description=Flask Animal Gallery App
+After=network.target
+
+[Service]
+Type=notify
+User=ubuntu
+WorkingDirectory=/home/ubuntu/flask_app
+Environment=PATH=/home/ubuntu/flask_app/venv/bin
+ExecStart=/home/ubuntu/flask_app/venv/bin/gunicorn --config gunicorn.conf.py wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
