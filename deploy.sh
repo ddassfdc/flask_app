@@ -77,7 +77,7 @@ server {
     server_name _;
 
     location / {
-        proxy_pass http://127.0.0.1:8000;
+        proxy_pass http://127.0.0.1:5000;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -106,6 +106,17 @@ sudo nginx -t
 
 # Set up systemd service
 echo "⚙️ Setting up systemd service..."
+echo "📁 Checking for flask-app.service..."
+if [ -f "flask-app.service" ]; then
+    echo "✅ Found flask-app.service"
+    ls -la flask-app.service
+else
+    echo "❌ flask-app.service not found!"
+    echo "📁 Current directory contents:"
+    ls -la
+    exit 1
+fi
+
 sudo cp flask-app.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable flask-app
