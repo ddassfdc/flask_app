@@ -69,19 +69,18 @@ SECRET_KEY=your-super-secret-key-change-this-in-production
 FLASK_ENV=production
 EOF
 
-# Set up Nginx configuration
-echo "🌐 Setting up Nginx..."
-sudo tee /etc/nginx/sites-available/flask-app << EOF
+# Create the configuration file
+sudo tee /etc/nginx/sites-available/flask-app << 'EOF'
 server {
     listen 5000;
     server_name _;
 
     location / {
-        proxy_pass http://127.0.0.1:5000;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location /static {
@@ -101,8 +100,10 @@ EOF
 sudo ln -sf /etc/nginx/sites-available/flask-app /etc/nginx/sites-enabled/
 sudo rm -f /etc/nginx/sites-enabled/default
 
-# Test Nginx configuration
+# Test and start
 sudo nginx -t
+sudo systemctl start nginx
+sudo systemctl status nginx
 
 # Set up systemd service
 echo "⚙️ Setting up systemd service..."
