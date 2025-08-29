@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Gallery & File Upload</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐾 Animal Gallery & File Upload</h1>
+            <p>Explore beautiful animals and upload your files with our modern, intuitive interface</p>
+            <div class="header-decoration">
+                <div class="decoration-line"></div>
+                <div class="decoration-dot"></div>
+                <div class="decoration-line"></div>
+            </div>
+        </div>
+        
+        <div class="boxes-container">
+            <!-- Animal Selection Box -->
+            <div class="box animal-box">
+                <div class="box-header">
+                    <h2>🦁 Select an Animal</h2>
+                    <div class="box-badge">Interactive</div>
+                </div>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="radio" name="animal" value="cat">
+                        <span class="checkmark"></span>
+                        <span>🐱 Cat</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="animal" value="dog">
+                        <span class="checkmark"></span>
+                        <span>🐕 Dog</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="animal" value="elephant">
+                        <span class="checkmark"></span>
+                        <span>🐘 Elephant</span>
+                    </label>
+                </div>
+                
+                <div id="animal-image" class="animal-image-container">
+                    <div class="placeholder-content">
+                        <div class="placeholder-icon">🦁</div>
+                        <p>Select an animal to see its photo</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- File Upload Box -->
+            <div class="box upload-box">
+                <div class="box-header">
+                    <h2>📁 Upload a File</h2>
+                    <div class="box-badge">Drag & Drop</div>
+                </div>
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-content">
+                        <svg class="upload-icon" viewBox="0 0 24 24">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        <p>Click to upload or drag and drop</p>
+                        <p class="upload-hint">Supports: TXT, PDF, Images, Documents, Archives</p>
+                    </div>
+                    <input type="file" id="file-input" accept=".txt,.pdf,.png,.jpg,.jpeg,.gif,.doc,.docx,.xls,.xlsx,.zip,.rar" style="display: none;">
+                </div>
+                
+                <div id="upload-result" class="upload-result" style="display: none;">
+                    <h3>File Information</h3>
+                    <div class="file-info">
+                        <p><strong>Name:</strong> <span id="filename"></span></p>
+                        <p><strong>Size:</strong> <span id="filesize"></span></p>
+                        <p><strong>Type:</strong> <span id="filetype"></span></p>
+                    </div>
+                </div>
+                
+                <div id="upload-error" class="upload-error" style="display: none;">
+                    <p id="error-message"></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fancy Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🛠️ Built With</h3>
+                    <div class="tech-stack">
+                        <div class="tech-item">
+                            <i class="fab fa-python"></i>
+                            <span>Python Flask</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-html5"></i>
+                            <span>HTML5</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-css3-alt"></i>
+                            <span>CSS3</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fab fa-js"></i>
+                            <span>JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>🚀 Features</h3>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fas fa-image"></i>
+                            <span>High-Quality Images</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-upload"></i>
+                            <span>Drag & Drop</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Responsive Design</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-palette"></i>
+                            <span>Modern UI/UX</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>📱 Connect</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-line"></div>
+                <p>&copy; 2025 Animal Gallery & File Upload. Built with ❤️ and modern web technologies.</p>
+                <div class="footer-line"></div>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
